@@ -12,7 +12,7 @@
 
 Este repositorio contiene una aplicación completa para la gestión de facturas.
 
-- Frontend: SPA construida con Angular (Standalone Components) que consume una API (Json-server) y permite:
+- Frontend: SPA construida con Angular (Standalone Components)(angular/cli: 17.3.17), que consume una API (Json-server) y permite:
 
 - Crear facturas.
 - Agregar y eliminar productos.
