@@ -1,0 +1,195 @@
+<div class="container py-5 fade-in-up">
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                        Agregar producto
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="invoiceForm">
+                        <div class="mb-3">
+                            <label for="inputProduct" class="form-label">
+                                Producto (*)
+                            </label>
+                            <input formControlName="productName" type="text" class="form-control" id="inputProduct">
+
+                            <div class="alert alert-warning p-1 mt-1"
+                                *ngIf="invoiceForm.get('productName')?.invalid && invoiceForm.get('productName')?.touched">
+                                Producto invalido.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputProductAmount" class="col-sm-0 col-form-label">
+                                Cantidad (*)
+                            </label>
+                            <input formControlName="productAmount" type="number" class="form-control"
+                                id="inputProductAmount">
+                            <div class="alert alert-warning p-1 mt-1"
+                                *ngIf="invoiceForm.get('productAmount')?.invalid && invoiceForm.get('productAmount')?.touched">
+                                Cantidad invalida.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputProductPrice" class="col-sm-0 col-form-label">
+                                Precio unitario (*)
+                            </label>
+                            <input formControlName="productPrice" type="number" class="form-control"
+                                id="inputProductPrice">
+                            <div class="alert alert-warning p-1 mt-1"
+                                *ngIf="invoiceForm.get('productPrice')?.invalid && invoiceForm.get('productPrice')?.touched">
+                                Precio unitario invalido.
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="handleAddProduct()"
+                        class="btn btn-primary d-flex justify-content-center align-items-center gap-2 w-100">
+                        <SpinnerComponent *ngIf="spinner == true" />
+                        <span *ngIf="spinner == false">Agregar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form [formGroup]="invoiceForm" (ngSubmit)="submit()">
+        <div class="row mb-3">
+            <div class="offset-sm-2 col-sm-7">
+                <h3>Registrar factura</h3>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="offset-sm-2 col-sm-7">
+                <label for="inputCustomerName" class="col-sm-0 col-form-label">
+                    Nombre cliente (*)
+                </label>
+                <input formControlName="customerName" type="text" class="form-control" id="inputCustomerName">
+                <div class="alert alert-warning p-1 mt-2"
+                    *ngIf="invoiceForm.get('customerName')?.invalid && invoiceForm.get('customerName')?.touched">
+                    Nombre de cliente invalido.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="offset-sm-2 col-sm-7">
+                <label for="inputCustomerEmail" class="col-sm-0 col-form-label">
+                    correo cliente (*)
+                </label>
+                <input formControlName="customerEmail" type="text" class="form-control" id="inputCustomerEmail">
+                <div class="alert alert-warning p-1 mt-2"
+                    *ngIf="invoiceForm.get('customerEmail')?.invalid && invoiceForm.get('customerEmail')?.touched">
+                    Correo de cliente invalido.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="offset-sm-2 col-sm-7">
+                <label for="inputInvoiceDate" class="col-sm-0 col-form-label">
+                    Fecha factura (*)
+                </label>
+                <input formControlName="invoiceDate" type="date" class="form-control" id="inputInvoiceDate">
+                <div class="alert alert-warning p-1 mt-2" *ngIf="invoiceForm.get('invoiceDate')?.invalid && 
+                    invoiceForm.get('invoiceDate')?.touched" role="alert">
+                    Fecha de factura invalida.
+                </div>
+            </div>
+        </div>
+
+        <div class="offset-sm-2 col-sm-7 d-flex justify-content-start align-items-center mb-5">
+            <button type="button" class="btn btn-primary d-flex justify-content-center align-items-center gap-2"
+                data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+
+                <i class="bi bi-plus-circle mr-3"></i>
+                <span>Producto</span>
+
+            </button>
+        </div>
+
+        <div class="row mb-5">
+            <div class="offset-sm-2 col-sm-7">
+
+                <div class="mb-2">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <strong>FACTURA PREVIEW</strong>
+                        <strong>Fecha: {{currentDate}}</strong>
+                    </div>
+
+                    <div>
+                        <strong class="mb-1">Cliente:</strong>
+
+                        <div class="mb-2">
+                            <p class="m-0">{{ invoiceForm.get('customerName')?.value }}</p>
+                            <p class="m-0">{{ invoiceForm.get('customerEmail')?.value }}</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-light table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Cantidad</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Total. producto</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            <tr *ngFor="let p of invoiceProducts">
+                                <td>{{ p.id }}</td>
+                                <td>{{ p.productAmount }}</td>
+                                <td>{{ p.productName }}</td>
+                                <td>{{ p.productPrice }}</td>
+                                <td>{{ p.productPrice * p.productAmount }}</td>
+                                <td>
+                                    <button (click)="handleDeleteProduct(p.id)" type="button" class="btn p-0 w-100">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="d-flex justify-content-start align-items-center">TOTAL</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        {{ invoiceTotal | number:'1.2-2' }} $
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <p class="text-center" *ngIf="!invoiceProducts.length">
+                    * No hay productos *
+                </p>
+            </div>
+        </div>
+
+        <div class="offset-sm-2 col-sm-7">
+            <button type="submit" class="btn btn-primary w-100">
+                <SpinnerComponent *ngIf="spinner == true" />
+                <span *ngIf="spinner == false">Registrar</span>
+            </button>
+        </div>
+
+    </form>
+
+</div>

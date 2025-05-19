@@ -1,0 +1,62 @@
+<div class="container py-3 fade-in-up">
+    <div class="row mb-5">
+        <div class="offset-sm-2 col-sm-7">
+            <hr class="dashed-line my-4">
+            <div class="mt-4 mb-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <strong>FACTURA #{{invoiceId}}</strong>
+                    <strong>Fecha: {{invoice.invoiceDate}}</strong>
+                </div>
+                <div>
+                    <strong class="mb-1">CLIENTE:</strong>
+
+                    <div class="mb-2">
+                        <p class="m-0">{{ invoice.customerName }}</p>
+                        <p class="m-0">{{ invoice.customerEmail }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cantidad</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Total. producto</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr *ngFor="let p of invoiceProducts">
+                            <td>{{ p.id }}</td>
+                            <td>{{ p.productAmount }}</td>
+                            <td>{{ p.productName }}</td>
+                            <td>{{ p.productPrice }}</td>
+                            <td>{{ p.productPrice * p.productAmount | number:'1.2-2' }} $</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">TOTAL</div>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    {{ invoiceTotal | number:'1.2-2' }} $
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="text-center" *ngIf="!invoiceProducts.length">
+                No hay productos
+            </p>
+        </div>
+    </div>
+</div>

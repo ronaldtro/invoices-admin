@@ -1,0 +1,78 @@
+<div class="container py-3 fade-in-up">
+    <h2 class="mb-4">Ver facturas</h2>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label for="inputCustomerFilter" class="form-label">
+                Filtrar por cliente
+            </label>
+            <input type="text" id="inputCustomerFilter" class="form-control" [(ngModel)]="customerNameFilter">
+        </div>
+        <div class="col">
+            <label for="inputInvoiceFilter" class="form-label">
+                Filtrar por ID
+            </label>
+            <input type="text" id="inputInvoiceFilter" class="form-control" [(ngModel)]="invoiceIdfilter">
+        </div>
+        <div class="d-flex align-items-start mt-2">
+            <button class="btn btn-primary btn-sm" (click)="applyFilters()">
+                Filtrar
+            </button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of invoices; let index = index">
+                    <td>{{ index }}</td>
+                    <td>{{ i.id }}</td>
+                    <td>{{ dayMonthYearDate(i.invoiceDate) }}</td>
+                    <td>{{ i.customerName }}</td>
+                    <td>{{ invoiceTotal(i) | number:'1.2-2'}} $</td>
+                    <td>
+                        <a [routerLink]="['/dashboard/invoice-detail', i.id]" class="btn p-0 w-100">
+                            <button class="btn btn-primary" (click)="applyFilters()">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-center mt-4" *ngIf="!invoices.length">
+        No se encontraron coincidencias.
+    </p>
+
+    <div class="mt-4" aria-label="Page navigation">
+        <ul class="pagination justify-content-center gap-3">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="btn btn-primary btn-sm" (click)="goToPage(currentPage - 1)">
+                    Anterior
+                </button>
+            </li>
+
+            <input type="number" id="inputPagesAmount" class="form-control form-control-sm w-auto"
+                [(ngModel)]="itemsPerPage" (ngModelChange)="updateChanges()">
+
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button class="btn btn-primary btn-sm" (click)="goToPage(currentPage + 1)">
+                    Siguiente
+                </button>
+            </li>
+        </ul>
+    </div>
+
+</div>
