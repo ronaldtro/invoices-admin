@@ -44,11 +44,14 @@ la UI/UX que tendría la aplicación, luego se creó e inicializó el proyecto c
 ## CONFIGURACION
 
 - git clone https://github.com/ronaldtro/invoices-admin.git
+
 - cd invoices-admin
 
 - npm install ó yarn install
 
 - ng serve ó yarn serve (Modo desarrollador)
+
+- Para la Api simulada (json-server): npx json-server db.json 
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
