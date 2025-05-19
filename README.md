@@ -4,12 +4,6 @@
 
 ## Test - Proyecto administracion de facturas
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![Pulls][pulls-shield]][pulls-url]
-[Report an issue](https://github.com/ronaldtro/invoices-admin/issues)
-
 </div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
